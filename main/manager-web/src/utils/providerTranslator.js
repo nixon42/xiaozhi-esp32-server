@@ -9,7 +9,11 @@ const providerNameMap = {
   '无意图识别': 'No Intent Recognition',
   '外挂的大模型意图识别': 'External LLM Intent Recognition',
   '大模型自主函数调用': 'LLM Autonomous Function Call',
-  
+  '火山引擎边缘大模型网关': 'Volcano Engine Edge LLM Gateway',
+  'Xinference大模型': 'Xinference Large Model',
+  'Xinference小模型': 'Xinference Small Model',
+  '讯飞星火认知大模型': 'iFlytek Spark Cognitive LLM',
+
   // Memory & Plugins
   '本地短期记忆（总结记忆）': 'Local Short-term Memory (Summarized)',
   '仅上报聊天记录（不总结记忆）': 'Report Chat Logs Only (No Summary)',
@@ -30,12 +34,17 @@ const providerNameMap = {
   'PaddleSpeech(流式)': 'PaddleSpeech (Streaming)',
   'PaddleSpeech': 'PaddleSpeech TTS',
   '豆包语音合成': 'Doubao Voice Synthesis',
+  '豆包语音合成2.0(流式)': 'Doubao Voice Synthesis 2.0 (Streaming)',
   '腾讯语音合成': 'Tencent Voice Synthesis',
   '火山双工TTS': 'Volcano Duplex TTS',
   '讯飞语音合成': 'iFlytek Voice Synthesis',
   'MiniMax语音合成': 'MiniMax Voice Synthesis',
   '百度语音合成': 'Baidu Voice Synthesis',
   'Edge语音合成': 'Edge Voice Synthesis',
+  'Coze中文语音合成': 'Coze Chinese Voice Synthesis',
+  'FishSpeech语音合成': 'FishSpeech Voice Synthesis',
+  '302AI语音合成': '302AI Voice Synthesis',
+  '自定义语音合成': 'Custom Voice Synthesis',
 
   // VLLM (Vision LLM)
   '智谱视觉AI': 'Zhipu Vision AI',
@@ -64,7 +73,15 @@ const providerNameMap = {
   '好奇男孩': 'Curious Boy',
   '汪汪队长': 'Captain Pup',
   '默认': 'Default',
-  '默认模板': 'Default Template'
+  '默认模板': 'Default Template',
+
+  // Language names
+  '普通话': 'Mandarin',
+  '中文': 'Chinese',
+  '英语': 'English',
+  '粤语': 'Cantonese',
+  '日语': 'Japanese',
+  '韩语': 'Korean'
 };
 
 const labelNameMap = {

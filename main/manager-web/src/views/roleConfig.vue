@@ -366,7 +366,7 @@
                             <el-option
                               v-for="(lang, index) in languageOptions"
                               :key="`lang-${index}`"
-                              :label="lang.label"
+                              :label="formatModelName(lang.label)"
                               :value="lang.value"
                             />
                           </el-select>
@@ -400,7 +400,7 @@
                                   align-items: center;
                                 "
                               >
-                                <span>{{ item.label }}</span>
+                                <span>{{ formatModelName(item.label) }}</span>
                                 <template v-if="hasAudioPreview(item)">
                                   <el-button
                                     type="text"
