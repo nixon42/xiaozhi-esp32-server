@@ -1,4 +1,4 @@
--- New Changelog Migration for i18n Translation of AI Model Providers and Model Configs
+-- New Changelog Migration for i18n Translation of AI Model Providers, Model Configs, and System Dicts
 -- Date: 2026-07-22
 
 -- 1. Update Provider Names (Intent, Memory, Plugins, VAD, ASR, TTS, VLLM)
@@ -60,3 +60,34 @@ UPDATE `ai_model_config` SET `model_name` = 'Tencent Voice Synthesis' WHERE `id`
 
 UPDATE `ai_model_config` SET `model_name` = 'Zhipu Vision AI' WHERE `id` = 'VLLM_ChatGLMVLLM';
 UPDATE `ai_model_config` SET `model_name` = 'Qwen Vision Model' WHERE `id` = 'VLLM_QwenVLVLLM';
+
+-- 4. Update System Dictionary Categories & Data
+UPDATE `sys_dict_type` SET `dict_name` = 'Firmware Type', `remark` = 'Firmware Type Dictionary' WHERE `id` = 101;
+UPDATE `sys_dict_type` SET `dict_name` = 'Phone Region', `remark` = 'Phone Region Code Dictionary' WHERE `id` = 102;
+
+UPDATE `sys_dict_data` SET `dict_label` = 'Breadboard New Wiring (WiFi)' WHERE `id` = 101001;
+UPDATE `sys_dict_data` SET `dict_label` = 'Breadboard New Wiring (WiFi) + LCD' WHERE `id` = 101002;
+UPDATE `sys_dict_data` SET `dict_label` = 'Breadboard New Wiring (ML307 AT)' WHERE `id` = 101003;
+UPDATE `sys_dict_data` SET `dict_label` = 'Breadboard (WiFi) ESP32 DevKit' WHERE `id` = 101004;
+UPDATE `sys_dict_data` SET `dict_label` = 'Breadboard (WiFi+ LCD) ESP32 DevKit' WHERE `id` = 101005;
+UPDATE `sys_dict_data` SET `dict_label` = 'DFRobot Unihiker k10' WHERE `id` = 101006;
+UPDATE `sys_dict_data` SET `dict_label` = 'Kevin SP V3 Dev Board' WHERE `id` = 101014;
+
+UPDATE `sys_dict_data` SET `dict_label` = 'China Mainland' WHERE `id` = 102001;
+UPDATE `sys_dict_data` SET `dict_label` = 'Hong Kong' WHERE `id` = 102002;
+UPDATE `sys_dict_data` SET `dict_label` = 'Macao' WHERE `id` = 102003;
+UPDATE `sys_dict_data` SET `dict_label` = 'Taiwan' WHERE `id` = 102004;
+UPDATE `sys_dict_data` SET `dict_label` = 'USA / Canada' WHERE `id` = 102005;
+UPDATE `sys_dict_data` SET `dict_label` = 'United Kingdom' WHERE `id` = 102006;
+UPDATE `sys_dict_data` SET `dict_label` = 'France' WHERE `id` = 102007;
+UPDATE `sys_dict_data` SET `dict_label` = 'Italy' WHERE `id` = 102008;
+UPDATE `sys_dict_data` SET `dict_label` = 'Germany' WHERE `id` = 102009;
+UPDATE `sys_dict_data` SET `dict_label` = 'Poland' WHERE `id` = 102010;
+UPDATE `sys_dict_data` SET `dict_label` = 'Switzerland' WHERE `id` = 102011;
+UPDATE `sys_dict_data` SET `dict_label` = 'Spain' WHERE `id` = 102012;
+UPDATE `sys_dict_data` SET `dict_label` = 'Denmark' WHERE `id` = 102013;
+UPDATE `sys_dict_data` SET `dict_label` = 'Malaysia' WHERE `id` = 102014;
+UPDATE `sys_dict_data` SET `dict_label` = 'Australia' WHERE `id` = 102015;
+UPDATE `sys_dict_data` SET `dict_label` = 'Indonesia' WHERE `id` = 102016;
+UPDATE `sys_dict_data` SET `dict_label` = 'Philippines' WHERE `id` = 102017;
+UPDATE `sys_dict_data` SET `dict_label` = 'New Zealand' WHERE `id` = 102018;
