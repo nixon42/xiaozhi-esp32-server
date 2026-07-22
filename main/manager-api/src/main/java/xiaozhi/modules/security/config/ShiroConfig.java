@@ -94,6 +94,13 @@ public class ShiroConfig {
         filterMap.put("/agent/chat-title/**", "server");
         filterMap.put("/agent/play/**", "anon");
         filterMap.put("/voiceClone/play/**", "anon");
+        filterMap.put("/models/names", "anon");
+        filterMap.put("/models/*/voices", "anon");
+        filterMap.put("/agent/page", "anon");
+        filterMap.put("/agent", "anon");
+        filterMap.put("/agent/*", "anon");
+        filterMap.put("/device/bind", "anon");
+        filterMap.put("/device/bind/**", "anon");
         filterMap.put("/**", "oauth2");
         shiroFilter.setFilterChainDefinitionMap(filterMap);
 
