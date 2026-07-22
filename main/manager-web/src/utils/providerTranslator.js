@@ -1,5 +1,5 @@
 const providerNameMap = {
-  // Model & Provider Names
+  // LLM & Intent
   '智谱AI': 'Zhipu AI',
   'Ollama本地模型': 'Ollama Local Model',
   '通义千问': 'Tongyi Qianwen (Qwen)',
@@ -9,6 +9,8 @@ const providerNameMap = {
   '无意图识别': 'No Intent Recognition',
   '外挂的大模型意图识别': 'External LLM Intent Recognition',
   '大模型自主函数调用': 'LLM Autonomous Function Call',
+  
+  // Memory & Plugins
   '本地短期记忆（总结记忆）': 'Local Short-term Memory (Summarized)',
   '仅上报聊天记录（不总结记忆）': 'Report Chat Logs Only (No Summary)',
   '仅上报聊天记录': 'Report Chat Logs Only',
@@ -19,7 +21,39 @@ const providerNameMap = {
   '腾讯混元': 'Tencent Hunyuan',
   '字节豆包': 'ByteDance Doubao',
   '阿里通义千问': 'Aliyun Qwen',
-  '讯飞星火': 'iFlytek Spark'
+  '讯飞星火': 'iFlytek Spark',
+
+  // TTS (Text to Speech)
+  '阿里云(流式)': 'Aliyun TTS (Streaming)',
+  'IndexTTS(流式)': 'IndexTTS (Streaming)',
+  'PaddleSpeech(流式)': 'PaddleSpeech (Streaming)',
+  'PaddleSpeech': 'PaddleSpeech TTS',
+  '豆包语音合成': 'Doubao Voice Synthesis',
+  '腾讯语音合成': 'Tencent Voice Synthesis',
+  '火山双工TTS': 'Volcano Duplex TTS',
+  '讯飞语音合成': 'iFlytek Voice Synthesis',
+  'MiniMax语音合成': 'MiniMax Voice Synthesis',
+  '百度语音合成': 'Baidu Voice Synthesis',
+
+  // VLLM (Vision LLM)
+  '智谱视觉AI': 'Zhipu Vision AI',
+  '千问视觉模型': 'Qwen Vision Model',
+
+  // ASR (Speech Recognition)
+  '豆包语音识别(流式)': 'Doubao Speech Recognition (Streaming)',
+  '豆包语音识别2.0(流式)': 'Doubao Speech Recognition 2.0 (Streaming)',
+  '腾讯语音识别': 'Tencent Speech Recognition',
+  '百度语音识别': 'Baidu Speech Recognition',
+  '豆包语音识别': 'Doubao Speech Recognition',
+  '阿里云语音识别': 'Aliyun Speech Recognition',
+  '阿里云语音识别(流式)': 'Aliyun Speech Recognition (Streaming)',
+  '讯飞语音识别': 'iFlytek Speech Recognition',
+  'FunASR语音识别': 'FunASR Speech Recognition',
+  'Vosk本地语音识别': 'Vosk Local Speech Recognition',
+  'OpenAI语音识别': 'OpenAI Speech Recognition (Whisper)',
+
+  // VAD (Voice Activity Detection)
+  '语音活动检测': 'Voice Activity Detection'
 };
 
 const labelNameMap = {
