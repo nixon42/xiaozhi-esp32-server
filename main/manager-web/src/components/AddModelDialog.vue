@@ -89,6 +89,8 @@
 <script>
 import Api from '@/apis/api';
 import CustomDialog from './CustomDialog.vue';
+import { translateProviderName, translateFieldLabel } from "@/utils/providerTranslator";
+
 export default {
   name: 'AddModelDialog',
   components: {

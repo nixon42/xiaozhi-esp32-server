@@ -100,8 +100,10 @@
 <script>
 import CustomDialog from './CustomDialog.vue';
 import Api from "@/apis/api";
+import { translateProviderName, translateFieldLabel } from "@/utils/providerTranslator";
 
 export default {
+
   name: "ModelEditDialog",
   components: { CustomDialog },
   props: {
@@ -288,7 +290,7 @@ export default {
 
       Api.model.getModelProviders(this.modelType, (data) => {
         this.providers = data.map((item) => ({
-          label: item.name,
+          label: translateProviderName(item.name),
           value: String(item.providerCode),
         }));
         this.providersLoaded = true;
@@ -306,7 +308,7 @@ export default {
         );
         if (provider) {
           this.dynamicCallInfoFields = JSON.parse(provider.fields || "[]").map((f) => ({
-            label: f.label,
+            label: translateFieldLabel(f.label),
             prop: f.key,
             type:
               f.type === "dict"
@@ -314,7 +316,7 @@ export default {
                 : f.type === "password"
                   ? "password"
                   : "text",
-            placeholder: `请输入${f.key}`,
+            placeholder: `Please enter ${f.key}`,
           }));
 
           if (this.pendingModelData && this.pendingProviderType === providerCode) {
