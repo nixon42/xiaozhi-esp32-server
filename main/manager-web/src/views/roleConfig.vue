@@ -86,7 +86,7 @@
                           :class="{ 'template-loading': loadingTemplate }"
                           @click="selectTemplate(template)"
                         >
-                          {{ template.agentName }}
+                          {{ formatModelName(template.agentName) }}
                         </div>
                       </div>
                     </el-form-item>
@@ -121,7 +121,7 @@
                         resize="none"
                         :placeholder="$t('roleConfig.pleaseEnterContent')"
                         v-model="form.systemPrompt"
-                        maxlength="2000"
+                        maxlength="10000"
                         show-word-limit
                         class="form-textarea"
                       />
@@ -199,7 +199,7 @@
                             <el-option
                               v-for="(item, optionIndex) in modelOptions['VAD']"
                               :key="`option-vad-${optionIndex}`"
-                              :label="item.label"
+                              :label="formatModelName(item.label)"
                               :value="item.value"
                             />
                           </el-select>
@@ -225,7 +225,7 @@
                             <el-option
                               v-for="(item, optionIndex) in modelOptions['ASR']"
                               :key="`option-asr-${optionIndex}`"
-                              :label="item.label"
+                              :label="formatModelName(item.label)"
                               :value="item.value"
                             />
                           </el-select>
@@ -250,7 +250,7 @@
                             <el-option
                               v-for="(item, optionIndex) in modelOptions['LLM']"
                               :key="`option-asr-${optionIndex}`"
-                              :label="item.label"
+                              :label="formatModelName(item.label)"
                               :value="item.value"
                             />
                           </el-select>
@@ -272,7 +272,7 @@
                             <el-option
                               v-for="(item, optionIndex) in modelOptions['LLM']"
                               :key="`option-asr-${optionIndex}`"
-                              :label="item.label"
+                              :label="formatModelName(item.label)"
                               :value="item.value"
                             />
                           </el-select>
@@ -301,7 +301,7 @@
                             v-for="(item, optionIndex) in modelOptions[model.type]"
                             v-if="!item.isHidden"
                             :key="`option-${index}-${optionIndex}`"
-                            :label="item.label"
+                            :label="formatModelName(item.label)"
                             :value="item.value"
                           />
                         </el-select>
@@ -390,7 +390,7 @@
                             <el-option
                               v-for="(item, index) in voiceOptions"
                               :key="`voice-${index}`"
-                              :label="item.label"
+                              :label="formatModelName(item.label)"
                               :value="item.value"
                             >
                               <div
@@ -474,6 +474,7 @@ import HeaderBar from "@/components/HeaderBar.vue";
 import i18n from "@/i18n";
 import featureManager from "@/utils/featureManager"; 
 import VersionFooter from "@/components/VersionFooter.vue";
+import { translateProviderName } from "@/utils/providerTranslator";
 
 export default {
   name: "RoleConfigPage",
@@ -653,6 +654,9 @@ export default {
           });
         })
         .catch(() => {});
+    },
+    formatModelName(name) {
+      return translateProviderName(name);
     },
     fetchTemplates() {
       Api.agent.getAgentTemplate(({ data }) => {

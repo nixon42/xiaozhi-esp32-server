@@ -91,7 +91,7 @@
             type="textarea"
             :placeholder="$t('templateQuickConfig.agentSettings.systemPromptPlaceholder')"
             show-word-limit
-            maxlength="2000"
+            maxlength="10000"
             :rows="16"
           />
         </el-form-item>

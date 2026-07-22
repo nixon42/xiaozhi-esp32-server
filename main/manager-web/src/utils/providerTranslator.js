@@ -14,6 +14,7 @@ const providerNameMap = {
   '本地短期记忆（总结记忆）': 'Local Short-term Memory (Summarized)',
   '仅上报聊天记录（不总结记忆）': 'Report Chat Logs Only (No Summary)',
   '仅上报聊天记录': 'Report Chat Logs Only',
+  '无记忆': 'No Memory',
   '联网搜索': 'Web Search',
   '设备动作调用': 'Call Device Action',
   '火山引擎': 'Volcano Engine',
@@ -34,6 +35,7 @@ const providerNameMap = {
   '讯飞语音合成': 'iFlytek Voice Synthesis',
   'MiniMax语音合成': 'MiniMax Voice Synthesis',
   '百度语音合成': 'Baidu Voice Synthesis',
+  'Edge语音合成': 'Edge Voice Synthesis',
 
   // VLLM (Vision LLM)
   '智谱视觉AI': 'Zhipu Vision AI',
@@ -53,7 +55,16 @@ const providerNameMap = {
   'OpenAI语音识别': 'OpenAI Speech Recognition (Whisper)',
 
   // VAD (Voice Activity Detection)
-  '语音活动检测': 'Voice Activity Detection'
+  '语音活动检测': 'Voice Activity Detection',
+
+  // Agent Template Pills
+  '湾湾小何': 'Taiwanese Girl (Xiao He)',
+  '星际游子': 'Interstellar Traveler',
+  '英语老师': 'English Teacher',
+  '好奇男孩': 'Curious Boy',
+  '汪汪队长': 'Captain Pup',
+  '默认': 'Default',
+  '默认模板': 'Default Template'
 };
 
 const labelNameMap = {
