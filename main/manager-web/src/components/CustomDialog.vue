@@ -23,11 +23,11 @@
     <slot></slot>
     <template slot="footer">
       <div v-if="footer" class="dialog-footer">
-        <CustomButton @click="handleCancel">{{ cancelText }}</CustomButton>
+        <CustomButton @click="handleCancel">{{ displayCancelText }}</CustomButton>
         <CustomButton :loading="confirmLoading" type="confirm" @click="handleConfirm">
           <span class="confirm-inner">
             <img src="@/assets/knowledge-base/star.png" class="confirm-icon" />
-            {{ confirmText }}
+            {{ displayConfirmText }}
           </span>
         </CustomButton>
       </div>
@@ -93,6 +93,24 @@ export default {
     return {
       dialogVisible: this.visible
     };
+  },
+  computed: {
+    displayCancelText() {
+      if (this.cancelText === "取消") {
+        return this.$t && this.$t("public.cancel") && this.$t("public.cancel") !== "public.cancel"
+          ? this.$t("public.cancel")
+          : "Cancel";
+      }
+      return this.cancelText;
+    },
+    displayConfirmText() {
+      if (this.confirmText === "确认保存") {
+        return this.$t && this.$t("public.confirm") && this.$t("public.confirm") !== "public.confirm"
+          ? this.$t("public.confirm")
+          : "Save";
+      }
+      return this.confirmText;
+    }
   },
   components: {
     CustomButton

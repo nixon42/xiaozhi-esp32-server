@@ -87,12 +87,15 @@
               ></el-table-column>
               <el-table-column
                 :label="$t('modelConfig.modelName')"
-                prop="modelName"
                 align="center"
-              ></el-table-column>
+              >
+                <template slot-scope="scope">
+                  {{ formatModelName(scope.row.modelName) }}
+                </template>
+              </el-table-column>
               <el-table-column :label="$t('modelConfig.provider')" align="center">
                 <template slot-scope="scope">
-                  {{ scope.row.configJson.type || $t("modelConfig.unknown") }}
+                  {{ formatProviderName(scope.row.configJson.type) || $t("modelConfig.unknown") }}
                 </template>
               </el-table-column>
               <el-table-column :label="$t('modelConfig.isEnabled')" align="center">
@@ -251,6 +254,7 @@ import TtsModel from "@/components/TtsModel.vue";
 import CustomPagination from "@/components/CustomPagination.vue";
 import CustomButton from "@/components/CustomButton.vue";
 import VersionFooter from "@/components/VersionFooter.vue";
+import { translateProviderName } from "@/utils/providerTranslator";
 export default {
   components: { HeaderBar, ModelEditDialog, TtsModel, AddModelDialog, VersionFooter, CustomPagination, CustomButton },
   data() {
@@ -500,6 +504,13 @@ export default {
           });
         }
       });
+    },
+
+    formatModelName(name) {
+      return translateProviderName(name);
+    },
+    formatProviderName(type) {
+      return translateProviderName(type);
     },
 
     // 获取模型配置列表

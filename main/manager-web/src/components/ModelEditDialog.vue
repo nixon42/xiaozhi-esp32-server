@@ -100,7 +100,7 @@
 <script>
 import CustomDialog from './CustomDialog.vue';
 import Api from "@/apis/api";
-import { translateProviderName, translateFieldLabel } from "@/utils/providerTranslator";
+import { translateProviderName, translateFieldLabel, translateRemark } from "@/utils/providerTranslator";
 
 export default {
 
@@ -348,11 +348,11 @@ export default {
         id: model.id,
         modelType: model.modelType,
         modelCode: model.modelCode,
-        modelName: model.modelName,
+        modelName: translateProviderName(model.modelName),
         isDefault: model.isDefault,
         isEnabled: model.isEnabled,
         docLink: model.docLink,
-        remark: model.remark,
+        remark: translateRemark(model.remark),
         sort: Number(model.sort) || 0,
         configJson: { ...configJson },
       };
