@@ -87,6 +87,10 @@ const providerNameMap = {
 const labelNameMap = {
   '引用的LLM模型': 'Referenced LLM Model',
   'LLM模型': 'LLM Model',
+  '模型': 'Model',
+  '速度': 'Speed',
+  'API地址': 'API Base URL',
+  '音色': 'Voice',
   '应用ID': 'App ID',
   '访问令牌': 'Access Token',
   '热词文件名称': 'Hot Words File Name',
