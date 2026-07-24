@@ -96,8 +96,8 @@ public class ShiroConfig {
         filterMap.put("/voiceClone/play/**", "anon");
         filterMap.put("/models/names", "anon");
         filterMap.put("/models/*/voices", "anon");
-        filterMap.put("/device/bind", "anon");
-        filterMap.put("/device/bind/**", "anon");
+        // filterMap.put("/device/bind", "anon");
+        // filterMap.put("/device/bind/**", "anon");
         filterMap.put("/**", "oauth2");
         shiroFilter.setFilterChainDefinitionMap(filterMap);
 
