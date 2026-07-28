@@ -3,7 +3,8 @@ FROM ghcr.io/xinnan-tech/xiaozhi-esp32-server:server-base
 
 COPY main/xiaozhi-server .
 
-RUN pip install --no-cache-dir fastembed==0.5.1 lancedb==0.8.2
+RUN pip install --no-cache-dir fastembed==0.5.1 lancedb==0.8.2 && \
+    python -c "from fastembed import TextEmbedding; TextEmbedding('BAAI/bge-small-en-v1.5')"
 
 # 启动应用
 CMD ["python", "app.py"]

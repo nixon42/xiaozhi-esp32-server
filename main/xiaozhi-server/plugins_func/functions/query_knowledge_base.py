@@ -28,8 +28,11 @@ QUERY_KB_FUNCTION_DESC = {
     },
 }
 
+_fastembed_model = None
+
 def search_lancedb(query: str, db_dir: str, kb_id: str = None):
     """Search LanceDB for the most semantically relevant chunks."""
+    global _fastembed_model
     if not os.path.exists(db_dir):
         logger.bind(tag=TAG).warning(f"LanceDB directory not found at {db_dir}")
         return []
@@ -42,9 +45,11 @@ def search_lancedb(query: str, db_dir: str, kb_id: str = None):
             
         table = db.open_table("documents")
         
-        # Manually compute query embedding
-        model = fastembed.TextEmbedding("BAAI/bge-small-en-v1.5")
-        query_vector = list(model.embed([query]))[0]
+        if _fastembed_model is None:
+            logger.bind(tag=TAG).info("DEBUG - Loading fastembed model into memory...")
+            _fastembed_model = fastembed.TextEmbedding("BAAI/bge-small-en-v1.5")
+            
+        query_vector = list(_fastembed_model.embed([query]))[0]
         
         # Perform semantic vector search
         search = table.search(list(query_vector)).limit(3)
