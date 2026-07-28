@@ -13,6 +13,10 @@ cd /opt/xiaozhi-server/src || { echo "Gagal masuk ke /opt/xiaozhi-server/src"; e
 echo "[1/3] Menarik kode terbaru dari GitHub..."
 sudo git pull origin custom_tool || { echo "Gagal melakukan git pull"; exit 1; }
 
+# Salin file docker-compose_all.yml & skrip update-fork.sh terbaru ke direktori /opt/xiaozhi-server/
+cp -f /opt/xiaozhi-server/src/main/xiaozhi-server/docker-compose_all.yml /opt/xiaozhi-server/docker-compose_all.yml 2>/dev/null || true
+cp -f /opt/xiaozhi-server/src/update-fork.sh /opt/xiaozhi-server/update-fork.sh 2>/dev/null || true
+
 # 2. Build ulang image Server, Web & API
 echo "[2/3] Membangun ulang Docker Image dari Kode Sumber..."
 echo "  -> Building xiaozhi-esp32-server-fork:latest..."
