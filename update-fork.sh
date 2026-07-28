@@ -4,14 +4,14 @@
 # -----------------------------------------------------------------------------
 
 echo "------------------------------------------------------------"
-echo "  Mulai Update Cepat Xiaozhi Server Fork (Branch: translation-en)"
+echo "  Mulai Update Cepat Xiaozhi Server Fork (Branch: custom_tool)"
 echo "------------------------------------------------------------"
 
 # 1. Masuk ke direktori kode sumber & update dari git
 cd /opt/xiaozhi-server/src || { echo "Gagal masuk ke /opt/xiaozhi-server/src"; exit 1; }
 
 echo "[1/3] Menarik kode terbaru dari GitHub..."
-sudo git pull origin translation-en || { echo "Gagal melakukan git pull"; exit 1; }
+sudo git pull origin custom_tool || { echo "Gagal melakukan git pull"; exit 1; }
 
 # 2. Build ulang image Web & API
 echo "[2/3] Membangun ulang Docker Image (xiaozhi-esp32-web-fork:latest)..."

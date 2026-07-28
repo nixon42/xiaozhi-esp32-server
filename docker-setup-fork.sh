@@ -45,7 +45,7 @@ whiptail --title "Konfirmasi Pemasangan" --yesno "Akan memulai proses pembentuka
 
 # Konfigurasi Repository Fork & Branch
 FORK_REPO=$(whiptail --title "Alamat Repository Fork" --inputbox "Masukkan alamat Git Repository Fork:" 10 65 "https://github.com/nixon42/xiaozhi-esp32-server.git" 3>&1 1>&2 2>&3) || exit 1
-FORK_BRANCH=$(whiptail --title "Pilihan Branch Git" --inputbox "Masukkan nama branch yang ingin dideploy (misal: translation-en):" 10 65 "translation-en" 3>&1 1>&2 2>&3) || exit 1
+FORK_BRANCH=$(whiptail --title "Pilihan Branch Git" --inputbox "Masukkan nama branch yang ingin dideploy (misal: custom_tool):" 10 65 "custom_tool" 3>&1 1>&2 2>&3) || exit 1
 
 # Pemeriksaan & Instalasi Docker
 if ! command -v docker &> /dev/null; then
