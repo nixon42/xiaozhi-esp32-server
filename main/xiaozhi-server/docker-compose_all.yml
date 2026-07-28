@@ -93,9 +93,7 @@ services:
 
   # Dapur Voice App (Frontend & KB API)
   dapur-voice-app:
-    build: 
-      context: ../../dapur_voice_app
-      dockerfile: Dockerfile
+    image: dapur-voice-app-fork:latest
     container_name: dapur-voice-app
     restart: always
     networks:
