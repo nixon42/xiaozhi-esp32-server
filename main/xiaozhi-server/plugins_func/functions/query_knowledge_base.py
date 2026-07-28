@@ -67,13 +67,16 @@ def query_knowledge_base(conn, query: str = None):
 
     # In a multi-tenant setup, we use the agent_id as the knowledge base ID
     agent_id = conn.config.get("agent_id")
+    logger.bind(tag=TAG).info(f"DEBUG - agent_id fetched from config: {agent_id}")
     if not agent_id:
         return ActionResponse(Action.REQLLM, "No agent_id found in config. This agent does not have a Knowledge Base assigned.", None)
         
     db_dir = os.path.join(os.path.dirname(__file__), "..", "..", "knowledge_base", ".lancedb")
     
     logger.bind(tag=TAG).info(f"Querying Knowledge Base '{agent_id}' for: {query}")
+    logger.bind(tag=TAG).info(f"DEBUG - Starting LanceDB search (this may take a while on first run due to model download)...")
     results = search_lancedb(query, db_dir, kb_id=agent_id)
+    logger.bind(tag=TAG).info(f"DEBUG - LanceDB search finished! Found {len(results)} results.")
     
     if not results:
         return ActionResponse(Action.REQLLM, f"No relevant information found in the knowledge base for agent {agent_id}.", None)
