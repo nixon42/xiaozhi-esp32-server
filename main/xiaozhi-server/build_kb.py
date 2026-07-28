@@ -35,12 +35,18 @@ def build_knowledge_base():
         pa.field("text", pa.string()),
         pa.field("vector", pa.list_(pa.float32(), 384)),
         pa.field("filename", pa.string()),
+        pa.field("kb_id", pa.string()),
     ])
     
     table = db.create_table("documents", schema=schema)
     
     docs_to_insert = []
     chunk_id = 0
+    
+    # Prompt for agent_id
+    agent_id = input("Enter the Agent ID (kb_id) for these documents (leave blank for global): ").strip()
+    if not agent_id:
+        agent_id = "global"
 
     # Read .md files
     for root, dirs, files in os.walk(kb_dir):
@@ -66,7 +72,8 @@ def build_knowledge_base():
                         docs_to_insert.append({
                             "id": str(chunk_id),
                             "text": p,
-                            "filename": file
+                            "filename": file,
+                            "kb_id": agent_id
                         })
                         chunk_id += 1
                         
