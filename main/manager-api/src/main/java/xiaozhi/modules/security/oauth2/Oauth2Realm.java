@@ -85,6 +85,9 @@ public class Oauth2Realm extends AuthorizingRealm {
 
         // 查询用户信息
         SysUserEntity userEntity = shiroService.getUser(tokenEntity.getUserId());
+        if (userEntity == null) {
+            throw new IncorrectCredentialsException(MessageUtils.getMessage(ErrorCode.TOKEN_INVALID));
+        }
 
         // 转换成UserDetail对象
         UserDetail userDetail = ConvertUtils.sourceToTarget(userEntity, UserDetail.class);
