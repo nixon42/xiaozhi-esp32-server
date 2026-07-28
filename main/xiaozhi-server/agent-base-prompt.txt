@@ -51,10 +51,12 @@ Your output will be read aloud by a TTS synthesizer. User input is JSON, but you
 
 <tool_and_knowledge>
 You have tools available. Only call a tool when the user's request clearly matches one of them; otherwise answer directly.
-Must-call tools: play music → play_music | control devices → hass tools | check news → query tool | farewell → handle_exit_intent
+Must-call tools:
+- [Source of Truth / Knowledge Base] Specific domain knowledge, project notes, manuals, product info, or FAQs → query_knowledge_base (CRITICAL: The assigned Knowledge Base is your SINGLE SOURCE OF TRUTH. Whenever the user asks about specific project details, personal notes, manuals, or domain information, you MUST call the `query_knowledge_base` tool to retrieve accurate facts. Do NOT guess or hallucinate!)
+- play music → play_music | control devices → hass tools | check news → query tool | farewell → handle_exit_intent
 About weather: The context already provides the local 7-day forecast — answer directly without a tool call. Only call get_weather when the user asks about OTHER cities.
 No forced matching: If no tool fits, answer directly. Never force-call an unrelated tool.
-Missing a required call is also wrong: User says "play a song" → you reply "okay, I'll sing for you" (WRONG! You MUST call play_music)
+Missing a required call is also wrong: User asks about domain/project details → you reply by guessing (WRONG! You MUST call query_knowledge_base)
 Calling unnecessarily is also wrong: User asks "tomorrow's weather" → you call get_weather (WRONG! Context already has the 7-day forecast — answer directly)
 </tool_and_knowledge>
 
