@@ -17,14 +17,12 @@ sudo git pull origin custom_tool || { echo "Gagal melakukan git pull"; exit 1; }
 cp -f /opt/xiaozhi-server/src/main/xiaozhi-server/docker-compose_all.yml /opt/xiaozhi-server/docker-compose_all.yml 2>/dev/null || true
 cp -f /opt/xiaozhi-server/src/update-fork.sh /opt/xiaozhi-server/update-fork.sh 2>/dev/null || true
 
-# 2. Build ulang image Server, Web, API & Dapur Voice App
+# 2. Build ulang image Server, Web & API
 echo "[2/3] Membangun ulang Docker Image dari Kode Sumber..."
 echo "  -> Building xiaozhi-esp32-server-fork:latest..."
 sudo docker build -t xiaozhi-esp32-server-fork:latest -f Dockerfile-server . || { echo "Gagal build docker image server"; exit 1; }
 echo "  -> Building xiaozhi-esp32-web-fork:latest..."
 sudo docker build -t xiaozhi-esp32-web-fork:latest -f Dockerfile-web . || { echo "Gagal build docker image web"; exit 1; }
-echo "  -> Building dapur-voice-app-fork:latest..."
-sudo docker build -t dapur-voice-app-fork:latest -f dapur_voice_app/Dockerfile dapur_voice_app/ || { echo "Gagal build dapur-voice-app"; exit 1; }
 
 # 3. Restart container
 echo "[3/3] Merestart Docker Containers..."

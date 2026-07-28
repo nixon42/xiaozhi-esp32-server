@@ -91,21 +91,5 @@ services:
     networks:
       - default
 
-  # Dapur Voice App (Frontend & KB API)
-  dapur-voice-app:
-    image: dapur-voice-app-fork:latest
-    container_name: dapur-voice-app
-    restart: always
-    networks:
-      - default
-    ports:
-      - "8005:8005"
-    environment:
-      - TZ=Asia/Jakarta
-      - KB_DB_DIR=/app/knowledge_base/.lancedb
-    volumes:
-      # Mount the exact same Knowledge Base folder
-      - ./knowledge_base:/app/knowledge_base
-
 networks:
   default:

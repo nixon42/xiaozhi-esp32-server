@@ -119,21 +119,15 @@ echo "Proses ini membutuhkan waktu beberapa menit, silakan tunggu..."
 
 cd "$SRC_DIR"
 
-echo "1/3 Membangun Image Server (xiaozhi-esp32-server-fork:latest)..."
+echo "1/2 Membangun Image Server (xiaozhi-esp32-server-fork:latest)..."
 docker build -t xiaozhi-esp32-server-fork:latest -f Dockerfile-server . || {
     whiptail --title "Kesalahan" --msgbox "Gagal membangun Image Server!" 10 50
     exit 1
 }
 
-echo "2/3 Membangun Image Web & API (xiaozhi-esp32-web-fork:latest)..."
+echo "2/2 Membangun Image Web & API (xiaozhi-esp32-web-fork:latest)..."
 docker build -t xiaozhi-esp32-web-fork:latest -f Dockerfile-web . || {
     whiptail --title "Kesalahan" --msgbox "Gagal membangun Image Web/API!" 10 50
-    exit 1
-}
-
-echo "3/3 Membangun Image Dapur Voice App (dapur-voice-app-fork:latest)..."
-docker build -t dapur-voice-app-fork:latest -f dapur_voice_app/Dockerfile dapur_voice_app/ || {
-    whiptail --title "Kesalahan" --msgbox "Gagal membangun Image Dapur Voice App!" 10 50
     exit 1
 }
 
