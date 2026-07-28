@@ -170,6 +170,7 @@ public class ConfigServiceImpl implements ConfigService {
         // 获取单台设备每天最多输出字数
         String deviceMaxOutputSize = sysParamsService.getValue("device_max_output_size", true);
         result.put("device_max_output_size", deviceMaxOutputSize);
+        result.put("agent_id", agent.getId());
 
         // 获取聊天记录配置
         Integer chatHistoryConf = agent.getChatHistoryConf();
