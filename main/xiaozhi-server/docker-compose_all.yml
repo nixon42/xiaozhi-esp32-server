@@ -25,7 +25,7 @@ services:
       # 配置文件目录
       - ./data:/opt/xiaozhi-esp32-server/data
       # Knowledge Base (Shared)
-      - ./knowledge_base:/opt/xiaozhi-esp32-server/knowledge_base
+      - knowledge_base_vol:/opt/xiaozhi-esp32-server/knowledge_base
       # 模型文件挂接，很重要
       - ./models/SenseVoiceSmall/model.pt:/opt/xiaozhi-esp32-server/models/SenseVoiceSmall/model.pt
 
@@ -93,3 +93,7 @@ services:
 
 networks:
   default:
+
+volumes:
+  knowledge_base_vol:
+    name: xiaozhi_knowledge_base_vol
