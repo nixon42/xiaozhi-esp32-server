@@ -778,6 +778,8 @@ class ConnectionHandler:
             self.config["mcp_endpoint"] = private_config["mcp_endpoint"]
         if private_config.get("context_providers", None) is not None:
             self.config["context_providers"] = private_config["context_providers"]
+        if private_config.get("agent_id", None) is not None:
+            self.config["agent_id"] = private_config["agent_id"]
 
         # 注入替换词到 TTS 模块配置
         if private_config.get("correct_words", None) is not None:
