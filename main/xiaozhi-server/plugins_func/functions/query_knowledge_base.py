@@ -28,7 +28,7 @@ QUERY_KB_FUNCTION_DESC = {
     },
 }
 
-def search_lancedb(query: str, db_dir: str):
+def search_lancedb(query: str, db_dir: str, kb_id: str = None):
     """Search LanceDB for the most semantically relevant chunks."""
     if not os.path.exists(db_dir):
         logger.bind(tag=TAG).warning(f"LanceDB directory not found at {db_dir}")
@@ -47,7 +47,14 @@ def search_lancedb(query: str, db_dir: str):
         query_vector = list(model.embed([query]))[0]
         
         # Perform semantic vector search
-        results = table.search(list(query_vector)).limit(3).to_list()
+        search = table.search(list(query_vector)).limit(3)
+        if kb_id:
+            search = search.where(f"kb_id = '{kb_id}'")
+            
+        results = search.to_list()
+        
+        # If no results and kb_id was provided, return empty
+        # This ensures users don't see other users' data
         return results
     except Exception as e:
         logger.bind(tag=TAG).error(f"LanceDB search failed: {e}")
@@ -58,16 +65,18 @@ def query_knowledge_base(conn, query: str = None):
     if not query:
         return ActionResponse(Action.REQLLM, "Please provide a search query.", None)
 
-    logger.bind(tag=TAG).info(f"Semantic Search in knowledge base for: {query}")
+    # In a multi-tenant setup, we use the agent_id as the knowledge base ID
+    agent_id = conn.config.get("agent_id")
+    if not agent_id:
+        return ActionResponse(Action.REQLLM, "No agent_id found in config. This agent does not have a Knowledge Base assigned.", None)
+        
+    db_dir = os.path.join(os.path.dirname(__file__), "..", "..", "knowledge_base", ".lancedb")
     
-    # Resolve the .lancedb directory path
-    base_dir = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-    db_dir = os.path.join(base_dir, "knowledge_base", ".lancedb")
-    
-    results = search_lancedb(query, db_dir)
+    logger.bind(tag=TAG).info(f"Querying Knowledge Base '{agent_id}' for: {query}")
+    results = search_lancedb(query, db_dir, kb_id=agent_id)
     
     if not results:
-        return ActionResponse(Action.REQLLM, f"No information found in the knowledge base for: {query}", None)
+        return ActionResponse(Action.REQLLM, f"No relevant information found in the knowledge base for agent {agent_id}.", None)
 
     report = f"Knowledge Base Results for '{query}':\n\n"
     for idx, res in enumerate(results, 1):
