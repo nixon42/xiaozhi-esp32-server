@@ -13,9 +13,12 @@ cd /opt/xiaozhi-server/src || { echo "Gagal masuk ke /opt/xiaozhi-server/src"; e
 echo "[1/3] Menarik kode terbaru dari GitHub..."
 sudo git pull origin custom_tool || { echo "Gagal melakukan git pull"; exit 1; }
 
-# 2. Build ulang image Web & API
-echo "[2/3] Membangun ulang Docker Image (xiaozhi-esp32-web-fork:latest)..."
-sudo docker build -t xiaozhi-esp32-web-fork:latest -f Dockerfile-web . || { echo "Gagal build docker image"; exit 1; }
+# 2. Build ulang image Server, Web & API
+echo "[2/3] Membangun ulang Docker Image dari Kode Sumber..."
+echo "  -> Building xiaozhi-esp32-server-fork:latest..."
+sudo docker build -t xiaozhi-esp32-server-fork:latest -f Dockerfile-server . || { echo "Gagal build docker image server"; exit 1; }
+echo "  -> Building xiaozhi-esp32-web-fork:latest..."
+sudo docker build -t xiaozhi-esp32-web-fork:latest -f Dockerfile-web . || { echo "Gagal build docker image web"; exit 1; }
 
 # 3. Restart container
 echo "[3/3] Merestart Docker Containers..."
