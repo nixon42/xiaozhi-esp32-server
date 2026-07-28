@@ -167,23 +167,18 @@ def get_openmeteo_weather(conn: "ConnectionHandler", location: str = None, lang:
     humidity = current.get("relative_humidity_2m", "N/A")
     wind = current.get("wind_speed_10m", "N/A")
 
-    weather_report = f"Weather for: {city_name}\n\n"
-    weather_report += f"Current conditions: {current_condition}\n"
-    weather_report += "Details:\n"
-    weather_report += f"  · Temperature: {temp}°C (Feels like: {feels_like}°C)\n"
-    weather_report += f"  · Humidity: {humidity}%\n"
-    weather_report += f"  · Wind Speed: {wind} km/h\n"
+    weather_report = f"[{city_name}] Now: {current_condition}, {temp}°C(feels {feels_like}°C), Hum: {humidity}%, Wind: {wind}km/h\nForecast:\n"
 
     if daily and "time" in daily:
-        weather_report += "\n7-Day Forecast:\n"
-        for i in range(len(daily["time"])):
+        # Limit to 3 days to save LLM context tokens
+        limit = min(3, len(daily["time"]))
+        for i in range(limit):
             date = daily["time"][i]
             d_code = daily["weather_code"][i]
             d_weather = WMO_CODE_MAP.get(d_code, "Unknown")
             t_max = daily["temperature_2m_max"][i]
             t_min = daily["temperature_2m_min"][i]
             
-            # Format date string for better readability (e.g. Today, Tomorrow, or Day of Week)
             dt = datetime.datetime.strptime(date, "%Y-%m-%d").date()
             if dt == datetime.date.today():
                 day_name = "Today"
@@ -192,7 +187,7 @@ def get_openmeteo_weather(conn: "ConnectionHandler", location: str = None, lang:
             else:
                 day_name = dt.strftime("%A")
                 
-            weather_report += f"{date} ({day_name}): {d_weather}, temp {t_min}°C ~ {t_max}°C\n"
+            weather_report += f"- {day_name}({date}): {d_weather}, {t_min}-{t_max}°C\n"
 
     weather_report += "\n(If you need the weather for a specific day, please tell me the date.)"
 
