@@ -3,5 +3,7 @@ FROM ghcr.io/xinnan-tech/xiaozhi-esp32-server:server-base
 
 COPY main/xiaozhi-server .
 
+RUN pip install --no-cache-dir fastembed==0.5.1 lancedb==0.8.2
+
 # 启动应用
 CMD ["python", "app.py"]
