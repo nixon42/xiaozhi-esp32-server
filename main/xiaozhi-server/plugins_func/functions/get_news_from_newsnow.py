@@ -87,21 +87,21 @@ GET_NEWS_FROM_NEWSNOW_FUNCTION_DESC = {
     "type": "function",
     "function": {
         "name": "get_news_from_newsnow",
-        "description": "当用户要求查看或收听新闻时调用（如'来条新闻''今天有什么新闻'）。",
+        "description": "Called when the user asks to see or listen to news (e.g. 'give me the news', 'what's in the news today').",
         "parameters": {
             "type": "object",
             "properties": {
                 "source": {
                     "type": "string",
-                    "description": f"新闻源的标准中文名称，例如{example_sources_str}等。可选参数，如果不提供则使用默认新闻源",
+                    "description": f"Standard news source name, e.g. {example_sources_str} etc. Optional parameter; if not provided the default news sources are used.",
                 },
                 "detail": {
                     "type": "boolean",
-                    "description": "是否获取详细内容，默认为false。如果为true，则获取上一条新闻的详细内容",
+                    "description": "Whether to fetch detailed content, default is false. If true, fetches the full content of the previous news item.",
                 },
                 "lang": {
                     "type": "string",
-                    "description": "返回用户使用的语言code，例如zh_CN/zh_HK/en_US/ja_JP等，默认zh_CN",
+                    "description": "Language code matching the user's language, e.g. zh_CN/zh_HK/en_US/ja_JP etc. Default is en_US.",
                 },
             },
             "required": ["lang"],

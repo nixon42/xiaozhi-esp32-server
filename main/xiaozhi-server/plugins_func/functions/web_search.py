@@ -15,7 +15,7 @@ TAG = __name__
 logger = setup_logging()
 
 _DEFAULT_DESCRIPTION = (
-    "联网搜索工具。当用户明确需要联网搜索问题时使用此工具。"
+    "Web search tool. Use this tool when the user explicitly needs to search the internet for information."
 )
 
 WEB_SEARCH_FUNCTION_DESC = {
@@ -28,7 +28,7 @@ WEB_SEARCH_FUNCTION_DESC = {
             "properties": {
                 "query": {
                     "type": "string",
-                    "description": "搜索关键词或问题",
+                    "description": "Search keywords or question",
                 }
             },
             "required": ["query"],
@@ -38,7 +38,7 @@ WEB_SEARCH_FUNCTION_DESC = {
 
 
 def _search_metaso(api_key: str, query: str, max_results: int) -> str:
-    """调用秘塔搜索API"""
+    """Call the Metaso search API"""
     url = "https://metaso.cn/api/v1/search"
     headers = {
         "Authorization": f"Bearer {api_key}",
@@ -53,32 +53,32 @@ def _search_metaso(api_key: str, query: str, max_results: int) -> str:
         "includeRawContent": False,
         "conciseSnippet": False,
     }
-    logger.bind(tag=TAG).debug(f"秘塔搜索请求 | URL: {url} | payload: {payload}")
+    logger.bind(tag=TAG).debug(f"Metaso search request | URL: {url} | payload: {payload}")
     response = requests.post(url, json=payload, headers=headers, timeout=15)
     response.raise_for_status()
     data = response.json()
-    logger.bind(tag=TAG).debug(f"秘塔搜索响应 | status: {response.status_code}")
+    logger.bind(tag=TAG).debug(f"Metaso search response | status: {response.status_code}")
 
     webpages = data.get("webpages", [])
     if not webpages:
-        return "未找到相关搜索结果。"
+        return "No relevant search results found."
 
-    lines = ["【联网搜索结果】"]
+    lines = ["[Web Search Results]"]
     for i, item in enumerate(webpages, 1):
-        title = item.get("title", "无标题")
+        title = item.get("title", "No title")
         snippet = item.get("summary", "")
         date = item.get("date", "")
-        lines.append(f"{i}. 标题：{title}")
+        lines.append(f"{i}. Title: {title}")
         if date:
-            lines.append(f"   日期：{date}")
+            lines.append(f"   Date: {date}")
         if snippet:
-            lines.append(f"   摘要：{snippet}")
+            lines.append(f"   Summary: {snippet}")
 
     return "\n".join(lines)
 
 
 def _search_tavily(api_key: str, query: str, max_results: int) -> str:
-    """调用Tavily搜索API"""
+    """Call the Tavily search API"""
     url = "https://api.tavily.com/search"
     headers = {
         "Authorization": f"Bearer {api_key}",
@@ -90,44 +90,38 @@ def _search_tavily(api_key: str, query: str, max_results: int) -> str:
         "search_depth": "advanced",
         "include_answer": "advanced",
     }
-    logger.bind(tag=TAG).debug(f"Tavily搜索请求 | URL: {url} | payload: {payload}")
+    logger.bind(tag=TAG).debug(f"Tavily search request | URL: {url} | payload: {payload}")
     response = requests.post(url, json=payload, headers=headers, timeout=15)
     response.raise_for_status()
     data = response.json()
-    logger.bind(tag=TAG).debug(f"Tavily搜索响应 | status: {response.status_code} | data: {data}")
+    logger.bind(tag=TAG).debug(f"Tavily search response | status: {response.status_code} | data: {data}")
 
     results = data.get("results", [])
     if not results:
-        return "未找到相关搜索结果。"
+        return "No relevant search results found."
 
     answer = data.get("answer", "")
-    lines = [f"【联网搜索结果】\n总结：{answer}"]
-    # for i, item in enumerate(results, 1):
-    #     title = item.get("title", "无标题")
-    #     summary = item.get("content", "")
-    #     lines.append(f"{i}. 标题：{title}")
-    #     if summary:
-    #         lines.append(f"   摘要：{summary}")
+    lines = [f"[Web Search Results]\nSummary: {answer}"]
 
     return "\n".join(lines)
 
 
 @register_function("web_search", WEB_SEARCH_FUNCTION_DESC, ToolType.SYSTEM_CTL)
 def web_search(conn: "ConnectionHandler", query: str = None):
-    logger.bind(tag=TAG).info(f"web_search 被调用 | query={query}")
+    logger.bind(tag=TAG).info(f"web_search called | query={query}")
     if not query:
-        return ActionResponse(Action.REQLLM, "请提供搜索关键词。", None)
+        return ActionResponse(Action.REQLLM, "Please provide search keywords.", None)
 
     web_search_config = conn.config.get("plugins", {}).get("web_search", {})
     provider = web_search_config.get("provider", "").lower()
     max_results = int(web_search_config.get("max_results", 3))
-    logger.bind(tag=TAG).info(f"web_search 配置 | provider={provider} | max_results={max_results} | config_keys={list(web_search_config.keys())}")
+    logger.bind(tag=TAG).info(f"web_search config | provider={provider} | max_results={max_results} | config_keys={list(web_search_config.keys())}")
 
     api_key = web_search_config.get("api_key", "")
     if not api_key:
         return ActionResponse(
             Action.REQLLM,
-            "联网搜索功能未配置API Key，请在配置文件中填写。",
+            "Web search API key is not configured. Please add it to the config file.",
             None,
         )
 
@@ -138,21 +132,21 @@ def web_search(conn: "ConnectionHandler", query: str = None):
     else:
         return ActionResponse(
             Action.REQLLM,
-            f"联网搜索功能未配置或配置的搜索源无效（当前：{provider}），请检查配置。",
+            f"Web search is not configured or the search provider is invalid (current: {provider}). Please check your configuration.",
             None,
         )
 
     try:
         result_text = search_fn()
-        logger.bind(tag=TAG).info(f"搜索结果组装完成:\n{result_text}")
+        logger.bind(tag=TAG).info(f"Search results assembled:\n{result_text}")
     except requests.exceptions.Timeout:
-        logger.bind(tag=TAG).error("联网搜索请求超时")
-        result_text = "联网搜索请求超时，请稍后重试。"
+        logger.bind(tag=TAG).error("Web search request timed out")
+        result_text = "Web search request timed out. Please try again later."
     except requests.exceptions.RequestException as e:
-        logger.bind(tag=TAG).error(f"联网搜索请求失败: {e}")
-        result_text = "联网搜索请求失败，请稍后重试。"
+        logger.bind(tag=TAG).error(f"Web search request failed: {e}")
+        result_text = "Web search request failed. Please try again later."
     except Exception as e:
-        logger.bind(tag=TAG).error(f"联网搜索异常: {e}")
-        result_text = "联网搜索出现异常，请稍后重试。"
+        logger.bind(tag=TAG).error(f"Web search exception: {e}")
+        result_text = "Web search encountered an error. Please try again later."
 
     return ActionResponse(Action.REQLLM, result_text, None)
