@@ -45,6 +45,17 @@ def search_lancedb(query: str, db_dir: str, kb_id: str = None):
             
         table = db.open_table("documents")
         
+        # DEBUG: Print table length and all kb_ids
+        try:
+            total_rows = len(table)
+            logger.bind(tag=TAG).info(f"DEBUG - LanceDB table 'documents' has {total_rows} rows.")
+            if total_rows > 0:
+                sample = table.to_pandas()
+                unique_kbs = sample['kb_id'].unique().tolist()
+                logger.bind(tag=TAG).info(f"DEBUG - Unique kb_ids in table: {unique_kbs}")
+        except Exception as ex:
+            logger.bind(tag=TAG).info(f"DEBUG - Could not fetch table stats: {ex}")
+        
         if _fastembed_model is None:
             logger.bind(tag=TAG).info("DEBUG - Loading fastembed model into memory...")
             _fastembed_model = fastembed.TextEmbedding("BAAI/bge-small-en-v1.5")
@@ -52,9 +63,10 @@ def search_lancedb(query: str, db_dir: str, kb_id: str = None):
         query_vector = list(_fastembed_model.embed([query]))[0]
         
         # Perform semantic vector search
-        search = table.search(list(query_vector)).limit(3)
+        search = table.search(list(query_vector))
         if kb_id:
             search = search.where(f"kb_id = '{kb_id}'")
+        search = search.limit(3)
             
         results = search.to_list()
         
@@ -76,7 +88,8 @@ def query_knowledge_base(conn, query: str = None):
     if not agent_id:
         return ActionResponse(Action.REQLLM, "No agent_id found in config. This agent does not have a Knowledge Base assigned.", None)
         
-    db_dir = os.path.join(os.path.dirname(__file__), "..", "..", "knowledge_base", ".lancedb")
+    # Use abspath so it logs the resolved clean path (e.g., /opt/xiaozhi-esp32-server/knowledge_base/.lancedb)
+    db_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "knowledge_base", ".lancedb"))
     
     logger.bind(tag=TAG).info(f"Querying Knowledge Base '{agent_id}' for: {query}")
     logger.bind(tag=TAG).info(f"DEBUG - Starting LanceDB search (this may take a while on first run due to model download)...")
